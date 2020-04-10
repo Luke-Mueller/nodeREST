@@ -7,6 +7,8 @@ const URI = `${process.env.REACT_APP_API_URL}`;
 
 const Display = props => {
   const [error, setError] = useState('');
+  const [touched, setTouched] = useState(false);
+
 
   const getHandler = () => {
     axios.get(`${URI}/app`)
@@ -18,13 +20,19 @@ const Display = props => {
           setError('');
         }
         props.setArtArr(newArr);
+        setTouched(true);
       })
       .catch(err => console.log(err));
   };
 
+  let getBtn;
+  touched ?
+    getBtn = <button onClick={getHandler} disabled>Get</button> :
+    getBtn = <button onClick={getHandler}>Get</button>
+
   return (
     <section className="Display">
-      <button onClick={getHandler}>Get</button>
+      {getBtn}
       <p>{error}</p>
       <Cards 
         artArr={props.artArr} 
