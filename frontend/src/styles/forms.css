@@ -1,0 +1,9 @@
+.Form { 
+  display: inline-block;
+  border: 1px solid #888;
+ }
+
+.Form__div {
+  display: flex;
+  justify-content: space-between;
+}
