@@ -18,7 +18,7 @@ const Display = props => {
           setError('The database is empty');
         } else {
           setError('');
-        }
+        };
         props.setArtArr(newArr);
         setTouched(true);
       })
@@ -28,7 +28,7 @@ const Display = props => {
   let getBtn;
   touched ?
     getBtn = <button onClick={getHandler} disabled>Get</button> :
-    getBtn = <button onClick={getHandler}>Get</button>
+    getBtn = <button onClick={getHandler}>Get</button>;
 
   return (
     <section className="Display">

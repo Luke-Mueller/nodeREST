@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import FormInput from '../util/FormInput/FormInput';
 import '../../styles/forms.css';
 
 const URI = `${process.env.REACT_APP_API_URL}`;
@@ -76,38 +77,45 @@ const PostForm = props => {
     e.preventDefault();
   };
 
-  let btn;
+  let postBtn;
   validated ?
-    btn = <button type="submit">Post</button> :
-    btn = <button type="submit" style={{ backgroundColor: '#fdcddb' }} disabled>Post</button>
+    postBtn = <button type="submit">Post</button> :
+    postBtn = <button type="submit" disabled>Post</button>
 
   return (
     <form className="Form" onSubmit={postHandler}>
-      <div className="Form__div">
-        <label htmlFor="name">name:</label>
-        <input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="artist">artist:</label>
-        <input name="artist" type="text" value={artist} onChange={e => setArtist(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="width">width:</label>
-        <input name="width" type="number" value={width} onChange={e => setWidth(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="height">height:</label>
-        <input name="height" type="number" value={height} onChange={e => setHeight(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="data">date:</label>
-        <input name="date" type="date" value={date} onChange={e => setDate(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="description">description:</label>
-        <textarea name="description" type="textarea" value={description} rows="5" onChange={e => setDescription(e.target.value)} />
-      </div>
-      {btn}
+      <FormInput 
+        name="name" 
+        type="text" 
+        value={name} 
+        onChange={e => setName(e.target.value)} />
+      <FormInput 
+        name="artist" 
+        type="text" 
+        value={artist} 
+        onChange={e => setArtist(e.target.value)} />
+      <FormInput 
+        name="width" 
+        type="number" 
+        value={width} 
+        onChange={e => setWidth(e.target.value)} />
+      <FormInput 
+        name="height" 
+        type="number" 
+        value={height} 
+        onChange={e => setHeight(e.target.value)} />
+      <FormInput 
+        name="date" 
+        type="date" 
+        value={date} 
+        onChange={e => setDate(e.target.value)} />
+      <FormInput 
+        name="description" 
+        type="textarea" 
+        value={description} 
+        rows="5" 
+        onChange={e => setDescription(e.target.value)} />
+      {postBtn}
     </form>
   )
 };
