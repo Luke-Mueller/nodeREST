@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import FormInput from '../../util/FormInput/FormInput';
+
 import '../../../styles/forms.css';
 
 const URI = `${process.env.REACT_APP_API_URL}`;
@@ -12,7 +14,7 @@ const Card = props => {
   const [width, setWidth] = useState(props.data.width);
   const [height, setHeight] = useState(props.data.height);
   const [date, setDate] = useState(props.data.date);
-  // const [changed, setChanged] = useState(false);
+  const [changed, setChanged] = useState(false);
 
   const deleteHandler = e => {
     const id = props.data.id;
@@ -43,40 +45,63 @@ const Card = props => {
     e.preventDefault();
   };
 
-  // TODO : render updateBtn only if an input has changed
-  // let updateBtn;
-  // changed ? 
-  //   updateBtn = <button onClick={updateHandler}>update</button> :  
-  //   updateBtn = <button onClick={updateHandler} disabled>update</button>
+  let updateBtn;
+  changed ? 
+    updateBtn = <button onClick={updateHandler}>update</button> :  
+    updateBtn = <button onClick={updateHandler} disabled>update</button>
 
   return (
-    // TODO : create INPUT component to reaplace Form_
     <form className="Form">
-      <div className="Form__div">
-        <label htmlFor="name">name:</label>
-        <input name="name" type="text" value={name} onChange={e => setName(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="artist">artist:</label>
-        <input name="artist" type="text" value={artist} onChange={e => setArtist(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="width">width:</label>
-        <input name="width" type="number" value={width} onChange={e => setWidth(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="height">height:</label>
-        <input name="height" type="number" value={height} onChange={e => setHeight(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="data">date:</label>
-        <input name="date" type="date" value={date.substring(0, 10)} onChange={e => setDate(e.target.value)} />
-      </div>
-      <div className="Form__div">
-        <label htmlFor="description">description:</label>
-        <textarea name="description" type="textarea" value={description} rows="5" onChange={e => setDescription(e.target.value)} />
-      </div>
-      <button onClick={updateHandler}>update</button>
+      <FormInput 
+        name="name" 
+        type="text" 
+        value={name} 
+        onChange={e => { 
+          setName(e.target.value);
+          setChanged(true);
+        }} />
+      <FormInput 
+        name="artist" 
+        type="text" 
+        value={artist} 
+        onChange={e => {
+          setArtist(e.target.value);
+          setChanged(true);
+        }} />
+      <FormInput 
+        name="width" 
+        type="number" 
+        value={width} 
+        onChange={e => {
+          setWidth(e.target.value);
+          setChanged(true);
+        }} />
+      <FormInput 
+        name="height" 
+        type="number" 
+        value={height} 
+        onChange={e => {
+          setHeight(e.target.value);
+          setChanged(true);
+        }} />
+      <FormInput 
+        name="date" 
+        type="date" 
+        value={date.substring(0, 10)} 
+        onChange={e => {
+          setDate(e.target.value);
+          setChanged(true);
+        }} />
+      <FormInput 
+        name="description" 
+        type="textarea" 
+        value={description} 
+        rows="5" 
+        onChange={e => {
+          setDescription(e.target.value)
+          setChanged(true);
+        }} />
+      {updateBtn}
       <button onClick={deleteHandler}>delete</button>
     </form>
   );
