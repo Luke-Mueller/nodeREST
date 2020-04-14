@@ -4,7 +4,6 @@ const mkClient = require('../utils/connection');
 
 exports.deleteArt = (req, res) => {
   const id = [req.params.id];
-  console.log('id: ', id)
   const text = `
     DELETE FROM 
       art 
@@ -15,28 +14,15 @@ exports.deleteArt = (req, res) => {
   const client = mkClient()
   client.query(text, id)
     .then(result => {
-      console.log("RESULT: ", result);
-      const innerClient = mkClient()
-      innerClient.query('SELECT * FROM art')
-        .then(result => {
-          data = result.rows;
-          console.log(data)
-          console.table(data);
-          res.status(200).json({
-            message:'Artwork deleted successfully',
-            payload: data
-          })
-        })
-        .catch(err => console.log(err))
-        .finally(() => client.end());
+      res.status(200).json({ data: result.rows[0] });
     })
     .catch(err => console.log(err))
-    .finally(() => { client.end() });
+    .finally(() => client.end());
 };
 
 exports.getArt = (req, res) => {
   const text = 'SELECT * FROM art';
-  const client = mkClient()
+  const client = mkClient();
   client.query(text)
     .then(result => {
       data = result.rows;
@@ -61,12 +47,10 @@ exports.postArt = (req, res) => {
 
   const newArt = new Art(name, artist, description, width, height, date);
   newArt.create(res);
-  console.log(newArt.read());
 };
 
 exports.updateArt = (req, res) => {
   const data = JSON.parse(req.body.payload)
-  console.log('DATA: ', data)
   const id = req.params.id;
 
   const name = data.name;
@@ -76,17 +60,17 @@ exports.updateArt = (req, res) => {
   const height = data.height;
   const date = data.date;
   const text = `
-  UPDATE 
-    art 
-  SET 
-    name = ($1), 
-    artist = ($2), 
-    description = ($3), 
-    width = ($4), 
-    height = ($5),
-    date = ($6)
-  WHERE 
-    art.id = ($7)
+    UPDATE 
+      art 
+    SET 
+      name = ($1), 
+      artist = ($2), 
+      description = ($3), 
+      width = ($4), 
+      height = ($5),
+      date = ($6)
+    WHERE 
+      art.id = ($7)
   `;
   const values = [
     name,
@@ -97,7 +81,7 @@ exports.updateArt = (req, res) => {
     date,
     id
   ];
-  
+
   const client = mkClient()
   client.query(text, values)
     .then(() => {

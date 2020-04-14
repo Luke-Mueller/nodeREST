@@ -43,7 +43,7 @@ const PostForm = props => {
     setValidated(result);
   }, [name, artist, description, width, height, date]);
 
-  const postHandler = e => {
+  const submitHandler = e => {
     const payload = JSON.stringify({
       name: name,
       artist: artist,
@@ -58,8 +58,10 @@ const PostForm = props => {
         if (res.status !== 201) {
           throw new Error('Error');
         }
-        const newArr = res.data.payload;
-        props.setArtArr(newArr);
+        console.log('PL: ', res.data.payload)
+        props.setArtArr(prevArr => {
+          return prevArr.concat(res.data.payload)
+        });
         alert('Art added successfully');
       })
       .catch(err => {
@@ -83,7 +85,7 @@ const PostForm = props => {
     postBtn = <button type="submit" disabled>Post</button>
 
   return (
-    <form className="Form" onSubmit={postHandler}>
+    <form className="Form" onSubmit={submitHandler}>
       <FormInput 
         name="name" 
         type="text" 

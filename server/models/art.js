@@ -28,20 +28,11 @@ class Art {
     const client = mkClient()
     client.query(text, values)
       .then(result => {
-        console.log("RESULT: ", result);
-        const innerClient = mkClient()
-        innerClient.query('SELECT * FROM art')
-          .then(result => {
-            data = result.rows;
-            console.log(data)
-            console.table(data);
-            res.status(201).json({
-              message: 'Artwork added successfully',
-              payload: data
-            })
-          })
-          .catch(err => console.log(err))
-          .finally(() => client.end());
+        console.log('RESULT: ', result)
+        res.status(201).json({
+          message: 'Artwork added successfully',
+          payload: result.rows[0]
+        });
       })
       .catch(err => console.log(err))
       .finally(() => { client.end() });

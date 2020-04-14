@@ -18,14 +18,21 @@ const Card = props => {
 
   const deleteHandler = e => {
     const id = props.data.id;
-
     axios.delete(`${URI}/app/${id}`)
       .then(res => {
-        const newArr = res.data.payload;
-        props.setArtArr(newArr);
+        if (res.status !== 200) {
+          throw new Error('error')
+        }
+        console.log('DATA: ', res.data.data)
+
       })
-      .catch((err) => console.log('Delete artwork failed ', err));
-      e.preventDefault();
+      .catch((err) => console.log('Delete artwork failed ', err))
+    props.setArtArr(prevArr => {
+      const newArr = prevArr.filter(i => i.id !== id);
+      console.log(newArr);
+      return newArr;
+    });
+    e.preventDefault();
   };
 
   const updateHandler = e => {
@@ -46,57 +53,57 @@ const Card = props => {
   };
 
   let updateBtn;
-  changed ? 
-    updateBtn = <button onClick={updateHandler}>update</button> :  
+  changed ?
+    updateBtn = <button onClick={updateHandler}>update</button> :
     updateBtn = <button onClick={updateHandler} disabled>update</button>
 
   return (
     <form className="Form">
-      <FormInput 
-        name="name" 
-        type="text" 
-        value={name} 
-        onChange={e => { 
+      <FormInput
+        name="name"
+        type="text"
+        value={name}
+        onChange={e => {
           setName(e.target.value);
           setChanged(true);
         }} />
-      <FormInput 
-        name="artist" 
-        type="text" 
-        value={artist} 
+      <FormInput
+        name="artist"
+        type="text"
+        value={artist}
         onChange={e => {
           setArtist(e.target.value);
           setChanged(true);
         }} />
-      <FormInput 
-        name="width" 
-        type="number" 
-        value={width} 
+      <FormInput
+        name="width"
+        type="number"
+        value={width}
         onChange={e => {
           setWidth(e.target.value);
           setChanged(true);
         }} />
-      <FormInput 
-        name="height" 
-        type="number" 
-        value={height} 
+      <FormInput
+        name="height"
+        type="number"
+        value={height}
         onChange={e => {
           setHeight(e.target.value);
           setChanged(true);
         }} />
-      <FormInput 
-        name="date" 
-        type="date" 
-        value={date.substring(0, 10)} 
+      <FormInput
+        name="date"
+        type="date"
+        value={date.substring(0, 10)}
         onChange={e => {
           setDate(e.target.value);
           setChanged(true);
         }} />
-      <FormInput 
-        name="description" 
-        type="textarea" 
-        value={description} 
-        rows="5" 
+      <FormInput
+        name="description"
+        type="textarea"
+        value={description}
+        rows="5"
         onChange={e => {
           setDescription(e.target.value)
           setChanged(true);
