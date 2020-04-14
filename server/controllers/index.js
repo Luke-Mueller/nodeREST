@@ -89,4 +89,4 @@ exports.updateArt = (req, res) => {
     })
     .catch(err => console.log(err))
     .finally(() => client.end());
-}
+};
