@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Cards from '../Cards/Cards';
@@ -7,7 +7,15 @@ const URI = `${process.env.REACT_APP_API_URL}`;
 
 const Display = props => {
   const [error, setError] = useState('');
-  // const [touched, setTouched] = useState(false);
+  const [touched, setTouched] = useState(false);
+
+  useEffect(() => {
+    if (touched && props.artArr.length) {
+      setError('');
+    } else if (touched && !props.artArr.length) {
+      setError('The database is empty');
+    }
+  }, [touched, props.artArr])
 
   const getHandler = () => {
     axios.get(`${URI}/app`)
@@ -17,32 +25,28 @@ const Display = props => {
           setError('The database is empty');
         } else {
           setError('');
-          // setTouched(true);
+          setTouched(true);
         };
         props.setArtArr(newArr);
-        // setTouched(true);
+        setTouched(true);
       })
       .catch(err => console.log(err));
   };
 
-  const show = () => {
-    console.log('artArr: ', props.artArr);
-  }
+  const hideListHandler = () => {
+    props.setArtArr([]);
+    setTouched(false);
+    setError('');
+  };
 
-  // let getBtn;
-  // touched ?
-  //   getBtn = <button onClick={getHandler} disabled>Get</button> :
-  //   getBtn = <button onClick={getHandler}>Get</button>;
-
-  // let getBtn;
-  // !props.artArr.length ?
-  //   getBtn = <button onClick={getHandler} disabled>Get</button> :
-  //   getBtn = <button onClick={getHandler}>Get</button>;
+  let getBtn;
+  touched ?
+    getBtn = <button onClick={hideListHandler}>Hide List</button> :
+    getBtn = <button onClick={getHandler}>Get List</button>;
 
   return (
     <section className="Display">
-      <button onClick={show}>artArr</button>
-      <button onClick={getHandler}>Get</button>
+      {getBtn}
       <p>{error}</p>
       <Cards 
         artArr={props.artArr} 

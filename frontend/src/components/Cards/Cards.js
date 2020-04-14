@@ -3,7 +3,7 @@ import React from 'react';
 import Card from './Card/Card';
 
 const Cards = props => {
-  const cards = props.artArr.map((i, idx) => {
+  const cards = props.artArr.map(i => {
     return (
       <Card
         data={i}

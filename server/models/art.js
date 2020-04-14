@@ -28,7 +28,6 @@ class Art {
     const client = mkClient()
     client.query(text, values)
       .then(result => {
-        console.log('RESULT: ', result)
         res.status(201).json({
           message: 'Artwork added successfully',
           payload: result.rows[0]
