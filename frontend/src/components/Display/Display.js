@@ -40,17 +40,24 @@ const Display = props => {
   };
 
   let getBtn;
-  touched ?
-    getBtn = <button onClick={hideListHandler}>Hide List</button> :
-    getBtn = <button onClick={getHandler}>Get List</button>;
+  let body;
+  if (touched) {
+      getBtn = <button onClick={hideListHandler}>Hide List</button>;
+      body = (
+        <Cards
+          artArr={props.artArr}
+          setArtArr={props.setArtArr} />
+      );
+    } else {
+      getBtn = <button onClick={getHandler}>Get List</button>;
+      body = null;
+    };
 
   return (
     <section className="Display">
       {getBtn}
       <p>{error}</p>
-      <Cards 
-        artArr={props.artArr} 
-        setArtArr={props.setArtArr} />
+      {body}
     </section>
   );
 };
