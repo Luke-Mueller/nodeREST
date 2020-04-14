@@ -50,7 +50,7 @@ exports.postArt = (req, res) => {
 };
 
 exports.updateArt = (req, res) => {
-  const data = JSON.parse(req.body.payload)
+  const data = JSON.parse(req.body.payload);
   const id = req.params.id;
 
   const name = data.name;

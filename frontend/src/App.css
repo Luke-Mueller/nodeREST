@@ -1,15 +1,17 @@
 * {
   box-sizing: border-box;
-  margin: 5px;
+  margin: 0.5rem;
+  color: #555;
 }
 
 .App {
   text-align: center;
 }
 
-button {
-  width: 5rem;
-  height: 2rem;
-  background-color: #faadc4;
+.App__h1 {
+  color: #bbb;
+  margin: 2rem
 }
+
+
 

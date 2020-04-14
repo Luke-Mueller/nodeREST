@@ -42,14 +42,14 @@ const Display = props => {
   let getBtn;
   let body;
   if (touched) {
-      getBtn = <button onClick={hideListHandler}>Hide List</button>;
+      getBtn = <button onClick={hideListHandler}>HIDE LIST</button>;
       body = (
         <Cards
           artArr={props.artArr}
           setArtArr={props.setArtArr} />
       );
     } else {
-      getBtn = <button onClick={getHandler}>Get List</button>;
+      getBtn = <button onClick={getHandler}>GET LIST</button>;
       body = null;
     };
 

@@ -10,9 +10,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <h3>Add:</h3>
+      <h1 className="App__h1">DIGITAL ART PROJECT</h1>
       <PostForm artArr={artArr} setArtArr={setArtArr} />
-      <hr />
       <Display artArr={artArr} setArtArr={setArtArr} />
     </div>
   );

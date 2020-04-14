@@ -81,11 +81,12 @@ const PostForm = props => {
 
   let postBtn;
   validated ?
-    postBtn = <button type="submit">Post</button> :
-    postBtn = <button type="submit" disabled>Post</button>
+    postBtn = <button type="submit">ADD</button> :
+    postBtn = <button type="submit" disabled>ADD</button>
 
   return (
     <form className="Form" onSubmit={submitHandler}>
+      <h3 className="Form__h3">ADD ART</h3>
       <FormInput 
         name="name" 
         type="text" 

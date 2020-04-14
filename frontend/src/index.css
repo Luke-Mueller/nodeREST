@@ -1,3 +1,9 @@
+* {
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +16,29 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  width: 5rem;
+  height: 2rem;
+  color: #444;
+  background-color: #faadc4;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #ffcada;
+}
+
+button:active {
+  background-color: #fff;
+  border: 1px solid #faadc4;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  color: #999;
+  background-color: #ccc;
 }
