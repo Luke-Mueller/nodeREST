@@ -16,7 +16,12 @@ exports.deleteArt = (req, res) => {
     .then(result => {
       res.status(200).json({ data: result.rows[0] });
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    })
     .finally(() => client.end());
 };
 
@@ -31,8 +36,12 @@ exports.getArt = (req, res) => {
         payload: data
       })
     })
-    .catch(err => console.log(err))
-    .finally(() => client.end());
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    })    .finally(() => client.end());
 };
 
 exports.postArt = (req, res) => {
@@ -87,6 +96,10 @@ exports.updateArt = (req, res) => {
     .then(() => {
       res.status(200).json({ message: 'Artwork updated successfully' });
     })
-    .catch(err => console.log(err))
-    .finally(() => client.end());
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    })    .finally(() => client.end());
 };
