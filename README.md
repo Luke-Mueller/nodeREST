@@ -1,5 +1,3 @@
-# Rackner Digital Art Project
-
 ## Intro
 As a software engineer, you've been tasked to create a CRUD API for managing digital art
 
