@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import FormInput from '../util/FormInput/FormInput';
+
 import '../../styles/forms.css';
 
 const URI = `${process.env.REACT_APP_API_URL}`;
@@ -58,7 +59,6 @@ const PostForm = props => {
         if (res.status !== 201) {
           throw new Error('Error');
         }
-        console.log('PL: ', res.data.payload)
         props.setArtArr(prevArr => {
           return prevArr.concat(res.data.payload)
         });
