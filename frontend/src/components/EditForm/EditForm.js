@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import FormInput from '../util/FormInput/FormInput';
@@ -11,6 +11,20 @@ const EditForm = props => {
   const [name, setName] = useState(props.data.name);
   const [description, setDescription] = useState(props.data.description);
   const [changed, setChanged] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    if (
+      (name !== '' || description !== '') && 
+      (name !== props.data.name || description !== props.data.description) &&
+      changed
+    ) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    };
+
+  }, [name, description, changed]);
 
   const deleteHandler = e => {
     const result = window.confirm(
@@ -59,6 +73,7 @@ const EditForm = props => {
       <FormInput
         name="name"
         type="text"
+        validated={isValid}
         value={name}
         onChange={e => {
           setName(e.target.value);
@@ -67,6 +82,7 @@ const EditForm = props => {
       <FormInput
         name="description"
         type="textarea"
+        validated={isValid}
         value={description}
         rows="5"
         onChange={e => {
