@@ -1,0 +1,75 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+import FormInput from '../util/FormInput/FormInput';
+
+import '../../styles/forms.css';
+
+const URI = `${process.env.REACT_APP_API_URL}`;
+
+const EditForm = props => {
+  const [name, setName] = useState(props.data.name);
+  const [description, setDescription] = useState(props.data.description);
+  const [changed, setChanged] = useState(false);
+
+  const deleteHandler = e => {
+    const id = props.data.id;
+    axios.delete(`${URI}/app/${id}`)
+      .then(res => {
+        props.setEditing(false);
+        alert(res.data.message);
+        props.setArtArr(prevArr => {
+          const newArr = prevArr.filter(i => i.id !== id);
+          return newArr;
+        });
+      })
+      .catch(err => console.log('Delete artwork failed ', err));
+    e.preventDefault();
+  };
+
+  const updateHandler = e => {
+    const id = props.data.id;
+    const payload = JSON.stringify({
+      name: name,
+      description: description
+    });
+
+    axios.put(`${URI}/app/${id}`, { payload })
+      .then(res => alert(res.data.message))
+      .catch(err => console.log(err))
+    e.preventDefault();
+  };
+
+  let updateBtn;
+  changed ?
+    updateBtn = <button onClick={updateHandler}>update</button> :
+    updateBtn = <button onClick={updateHandler} disabled>update</button>
+
+  return (
+    <form className="Form">
+      <h3 className="Form__h3">UPDATE ART</h3>
+      <FormInput
+        name="name"
+        type="text"
+        value={name}
+        onChange={e => {
+          setName(e.target.value);
+          setChanged(true);
+        }} />
+      <FormInput
+        name="description"
+        type="textarea"
+        value={description}
+        rows="5"
+        onChange={e => {
+          setDescription(e.target.value)
+          setChanged(true);
+        }} />
+      <button onClick={() => props.setEditing(false)}>cancel</button>
+      {updateBtn}
+      <button onClick={deleteHandler}>delete</button>
+    </form>
+  );
+};
+
+export default EditForm;

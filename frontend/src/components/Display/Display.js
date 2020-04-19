@@ -7,15 +7,15 @@ const URI = `${process.env.REACT_APP_API_URL}`;
 
 const Display = props => {
   const [error, setError] = useState('');
-  const [touched, setTouched] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (touched && props.artArr.length) {
+    if (show && props.artArr.length) {
       setError('');
-    } else if (touched && !props.artArr.length) {
+    } else if (show && !props.artArr.length) {
       setError('The database is empty');
     }
-  }, [touched, props.artArr])
+  }, [show, props.artArr])
 
   const getHandler = () => {
     axios.get(`${URI}/app`)
@@ -25,33 +25,34 @@ const Display = props => {
           setError('The database is empty');
         } else {
           setError('');
-          setTouched(true);
+          setShow(true);
         };
         props.setArtArr(newArr);
-        setTouched(true);
+        setShow(true);
       })
       .catch(err => console.log(err));
   };
 
   const hideListHandler = () => {
     props.setArtArr([]);
-    setTouched(false);
+    setShow(false);
     setError('');
   };
 
   let getBtn;
   let body;
-  if (touched) {
-      getBtn = <button onClick={hideListHandler}>HIDE LIST</button>;
-      body = (
-        <Cards
-          artArr={props.artArr}
-          setArtArr={props.setArtArr} />
-      );
-    } else {
-      getBtn = <button onClick={getHandler}>GET LIST</button>;
-      body = null;
-    };
+  if (show) {
+    getBtn = <button onClick={hideListHandler}>HIDE LIST</button>;
+    body = (
+      <Cards
+        artArr={props.artArr}
+        setArtArr={props.setArtArr}
+        setEditing={props.setEditing} />
+    );
+  } else {
+    getBtn = <button onClick={getHandler}>GET LIST</button>;
+    body = null;
+  };
 
   return (
     <section className="Display">

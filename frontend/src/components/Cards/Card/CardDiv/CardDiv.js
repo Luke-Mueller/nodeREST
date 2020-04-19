@@ -6,7 +6,7 @@ const CardDiv = props => {
   let element;
   if (props.label === 'name') {
     element = (
-      <div>
+      <div >
         <h3>{props.value}</h3>
       </div>
     )
@@ -19,7 +19,7 @@ const CardDiv = props => {
     )
   }
   return (
-    <div>
+    <div className="CardDiv__container">
       {element}
     </div>
   );

@@ -9,6 +9,7 @@ const Cards = props => {
         data={i}
         artArr={props.artArr}
         setArtArr={props.setArtArr}
+        setEditing={props.setEditing}
         key={i.id} />
     );
   });

@@ -1,3 +1,8 @@
+.CardDiv__container {
+  margin: 0;
+  padding: 0;
+}
+
 .CardDiv {
   display: flex;
   justify-content: space-between;
