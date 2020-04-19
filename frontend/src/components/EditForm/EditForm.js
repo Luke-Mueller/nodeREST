@@ -45,8 +45,8 @@ const EditForm = props => {
 
   let updateBtn;
   changed ?
-    updateBtn = <button onClick={updateHandler}>update</button> :
-    updateBtn = <button onClick={updateHandler} disabled>update</button>
+    updateBtn = <button onClick={updateHandler}>UPDATE</button> :
+    updateBtn = <button onClick={updateHandler} disabled>UPDATE</button>
 
   return (
     <form className="Form">
@@ -68,9 +68,9 @@ const EditForm = props => {
           setDescription(e.target.value)
           setChanged(true);
         }} />
-      <button onClick={() => props.setEditing(false)}>cancel</button>
+      <button onClick={() => props.setEditing(false)}>CANCEL</button>
       {updateBtn}
-      <button onClick={deleteHandler}>delete</button>
+      <button onClick={deleteHandler}>DELETE</button>
     </form>
   );
 };
