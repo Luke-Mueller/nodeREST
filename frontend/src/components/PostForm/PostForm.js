@@ -60,7 +60,7 @@ const PostForm = props => {
           throw new Error('Error');
         }
         props.setArtArr(prevArr => {
-          return prevArr.concat(res.data.payload)
+          return prevArr.concat(res.data.artObj)
         });
         alert('Art added successfully');
       })

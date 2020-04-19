@@ -1,39 +1,29 @@
 const Art = require('../models/art');
 
-const mkClient = require('../utils/connection');
-
-exports.deleteArt = (req, res) => {
+exports.deleteArt = (req, res, next) => {
   const id = [req.params.id];
-  const text = `
-    DELETE FROM 
-      art 
-    WHERE 
-      art.id = ($1) 
-    RETURNING *
-  `;
-  const client = mkClient()
-  client.query(text, id)
+  const art = new Art();
+  art.delete(id)
     .then(result => {
-      res.status(200).json({ data: result.rows[0] });
+      res.status(200).json({ 
+        message: `Art "${result.name}" deleted successfully` 
+      });
     })
     .catch(err => {
       if (!err.statusCode) {
         err.statusCode = 500;
       }
       next(err);
-    })
-    .finally(() => client.end());
+    });
 };
 
-exports.getArt = (req, res) => {
-  const text = 'SELECT * FROM art';
-  const client = mkClient();
-  client.query(text)
+exports.getArt = (req, res, next) => {
+  const art = new Art();
+  art.getArt()
     .then(result => {
-      data = result.rows;
       res.status(200).json({
         message: 'Artwork retrieved successfully',
-        payload: data
+        payload: result
       })
     })
     .catch(err => {
@@ -41,65 +31,46 @@ exports.getArt = (req, res) => {
         err.statusCode = 500;
       }
       next(err);
-    })    .finally(() => client.end());
+    });
 };
 
-exports.postArt = (req, res) => {
+exports.postArt = (req, res, next) => {
   const data = JSON.parse(req.body.payload);
-
-  const name = data.name;
-  const artist = data.artist;
-  const description = data.description;
-  const width = data.width;
-  const height = data.height;
-  const date = data.date;
-
-  const newArt = new Art(name, artist, description, width, height, date);
-  newArt.create(res);
-};
-
-exports.updateArt = (req, res) => {
-  const data = JSON.parse(req.body.payload);
-  const id = req.params.id;
-
-  const name = data.name;
-  const artist = data.artist;
-  const description = data.description;
-  const width = data.width;
-  const height = data.height;
-  const date = data.date;
-  const text = `
-    UPDATE 
-      art 
-    SET 
-      name = ($1), 
-      artist = ($2), 
-      description = ($3), 
-      width = ($4), 
-      height = ($5),
-      date = ($6)
-    WHERE 
-      art.id = ($7)
-  `;
-  const values = [
-    name,
-    artist,
-    description,
-    width,
-    height,
-    date,
-    id
-  ];
-
-  const client = mkClient()
-  client.query(text, values)
-    .then(() => {
-      res.status(200).json({ message: 'Artwork updated successfully' });
+  const art = new Art(
+    data.name,
+    data.artist,
+    data.description,
+    data.width,
+    data.height,
+    data.date
+  );
+  art.create(art)
+    .then(result => {
+      res.status(201).json({
+        message: 'Art created successfully',
+        artObj: result
+      });
     })
     .catch(err => {
       if (!err.statusCode) {
         err.statusCode = 500;
-      }
+      };
       next(err);
-    })    .finally(() => client.end());
+    })
+};
+
+exports.updateArt = (req, res, next) => {
+  const data = JSON.parse(req.body.payload);
+  const id = req.params.id;
+  const art = new Art();
+  art.update(id, data)
+    .then(result => {
+      res.status(200).json({ message: `Artwork "${result.name}" updated successfully` });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      };
+      next(err);
+    });
 };

@@ -20,18 +20,13 @@ const Card = props => {
     const id = props.data.id;
     axios.delete(`${URI}/app/${id}`)
       .then(res => {
-        if (res.status !== 200) {
-          throw new Error('error')
-        }
-        console.log('DATA: ', res.data.data)
-
+        alert(res.data.message);
+        props.setArtArr(prevArr => {
+          const newArr = prevArr.filter(i => i.id !== id);
+          return newArr;
+        });
       })
-      .catch((err) => console.log('Delete artwork failed ', err))
-    props.setArtArr(prevArr => {
-      const newArr = prevArr.filter(i => i.id !== id);
-      console.log(newArr);
-      return newArr;
-    });
+      .catch(err => console.log('Delete artwork failed ', err));
     e.preventDefault();
   };
 

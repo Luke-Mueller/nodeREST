@@ -10,42 +10,71 @@ class Art {
     this.date = date;
   };
 
-  create(res) {
+  create(art) {
     const text = `
-      INSERT INTO 
-        art 
-      VALUES(DEFAULT, $1, $2, $3, $4, $5, $6) 
-      RETURNING *
+      INSERT INTO art 
+        VALUES(DEFAULT, $1, $2, $3, $4, $5, $6) 
+        RETURNING *
     `;
     const values = [
-      this.name,
-      this.artist,
-      this.description,
-      this.width,
-      this.height,
-      this.date
+      art.name,
+      art.artist,
+      art.description,
+      art.width,
+      art.height,
+      art.date
     ];
+
     const client = mkClient()
-    client.query(text, values)
-      .then(result => {
-        res.status(201).json({
-          message: 'Artwork added successfully',
-          payload: result.rows[0]
-        });
-      })
+    return client.query(text, values)
+      .then(result => result.rows[0])
       .catch(err => console.log(err))
-      .finally(() => { client.end() });
+      .finally(() => client.end());
   };
 
-  read() {
-    return {
-      name: this.name,
-      artist: this.artist,
-      description: this.description,
-      width: this.width,
-      height: this.height,
-      date: this.date
-    }
+  delete(id) {
+    const text = `
+      DELETE FROM art 
+        WHERE art.id = ($1) 
+        RETURNING *
+    `;
+    const client = mkClient()
+    return client.query(text, id)
+      .then(result => result.rows[0])
+      .catch(err => console.log(err))
+      .finally(() => client.end());
+  };
+
+  getArt() {
+    const text = 'SELECT * FROM art';
+    const client = mkClient();
+    return client.query(text)
+      .then(result => result.rows)
+      .catch(err => console.log(err))
+      .finally(() => client.end());
+  };
+
+  // getById() {};
+
+  update(id, data) {
+    const text = `
+      UPDATE art 
+        SET name = ($1), 
+            description = ($2) 
+        WHERE art.id = ($3)
+        RETURNING *
+    `;
+    const values = [
+      data.name,
+      data.description,
+      id
+    ];
+
+    const client = mkClient()
+    return client.query(text, values)
+      .then(result => result.rows[0])
+      .catch(err => console.log('ERR', err))
+      .finally(() => client.end());
   };
 };
 
