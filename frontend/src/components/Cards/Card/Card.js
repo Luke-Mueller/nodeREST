@@ -6,16 +6,15 @@ import './Card.css';
 
 const Card = props => {
 
-  const utc = new Date(props.data.date).toUTCString();
-  const utcArr = utc.split(' ');
-  const dateArr = [];  
-  
-  dateArr[0] = utcArr[0];
-  dateArr[1] = utcArr[2];
-  dateArr[2] = utcArr[1];
-  dateArr[3] = utcArr[3];
-
-  const date = dateArr.join(' ');
+  let date = new Date(props.data.date)
+    .toUTCString()
+    .split(' ')
+    .slice(0, 4);
+    
+  const idx2 = date[2];
+  date[2] = date[1];
+  date[1] = idx2;
+  date = date.join(' ');
 
   return (
     <div className="Card">
