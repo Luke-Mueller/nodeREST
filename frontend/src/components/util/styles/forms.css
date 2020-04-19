@@ -14,6 +14,12 @@
   color: #888;
 }
 
-textarea {
-  border: 1px solid #ccc;
+.Form__textarea {
+  border-color: #faadad;
+  padding: 5px;
+}
+
+.Form__input {
+  border:1px solid #faadad;
+  padding: 5px;
 }

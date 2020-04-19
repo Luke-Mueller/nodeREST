@@ -14,33 +14,60 @@ const PostForm = props => {
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
   const [date, setDate] = useState('');
+  const [nameIsValid, setNameIsValid] = useState(false);
+  const [artistIsValid, setArtistIsValid] = useState(false);
+  const [descriptionIsValid, setDescriptionIsValid] = useState(false);
+  const [widthIsValid, setWidthIsValid] = useState(false);
+  const [heightIsValid, setHeightIsValid] = useState(false);
+  const [dateIsValid, setDateIsValid] = useState(false);
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     // FORM VALIDATION
-    let v1;
-    let v2;
     const re = /^([0-2]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
-    if (
-      name !== '' &&
-      artist !== '' &&
-      description !== '' &&
-      width !== '' &&
-      height !== ''
-    ) {
-      v1 = true;
+    if (name !== '') {
+      setNameIsValid(true);
     } else {
-      v1 = false;
+      setNameIsValid(false);
     };
-
+    if (artist !== '') {
+      setArtistIsValid(true);
+    } else {
+      setArtistIsValid(false);
+    };
+    if (description !== '') {
+      setDescriptionIsValid(true);
+    } else {
+      setDescriptionIsValid(false);
+    };
+    if (width !== '') {
+      setWidthIsValid(true);
+    } else {
+      setWidthIsValid(false);
+    };
+    if (height !== '') {
+      setHeightIsValid(true);
+    } else {
+      setHeightIsValid(false);
+    };
     if (re.test(date)) {
-      v2 = true;
+      setDateIsValid(true);
     } else {
-      v2 = false;
+      setDateIsValid(false);
     };
 
-    const result = (v1 === true && v2 === true);
+    let result = false;
+    if (
+      nameIsValid,
+      artistIsValid,
+      descriptionIsValid,
+      widthIsValid,
+      heightIsValid,
+      dateIsValid
+    ) {
+      result = true;
+    }
     setValidated(result);
   }, [name, artist, description, width, height, date]);
 
@@ -58,9 +85,9 @@ const PostForm = props => {
       .then(res => {
         if (res.status !== 201) {
           throw new Error('Error');
-        }
+        };
         props.setArtArr(prevArr => {
-          return prevArr.concat(res.data.artObj)
+          return prevArr.concat(res.data.artObj);
         });
         alert('Art added successfully');
       })
@@ -82,41 +109,47 @@ const PostForm = props => {
   let postBtn;
   validated ?
     postBtn = <button type="submit">ADD</button> :
-    postBtn = <button type="submit" disabled>ADD</button>
+    postBtn = <button type="submit" disabled>ADD</button>;
 
   return (
     <form className="Form" onSubmit={submitHandler}>
       <h3 className="Form__h3">ADD ART</h3>
-      <FormInput 
-        name="name" 
-        type="text" 
-        value={name} 
+      <FormInput
+        name="name"
+        type="text"
+        validated={nameIsValid}
+        value={name}
         onChange={e => setName(e.target.value)} />
-      <FormInput 
-        name="artist" 
-        type="text" 
-        value={artist} 
+      <FormInput
+        name="artist"
+        type="text"
+        value={artist}
+        validated={artistIsValid}
         onChange={e => setArtist(e.target.value)} />
-      <FormInput 
-        name="width" 
-        type="number" 
-        value={width} 
+      <FormInput
+        name="width"
+        type="number"
+        validated={widthIsValid}
+        value={width}
         onChange={e => setWidth(e.target.value)} />
-      <FormInput 
-        name="height" 
-        type="number" 
-        value={height} 
+      <FormInput
+        name="height"
+        type="number"
+        validated={heightIsValid}
+        value={height}
         onChange={e => setHeight(e.target.value)} />
-      <FormInput 
-        name="date" 
-        type="date" 
-        value={date} 
+      <FormInput
+        name="date"
+        type="date"
+        validated={dateIsValid}
+        value={date}
         onChange={e => setDate(e.target.value)} />
-      <FormInput 
-        name="description" 
-        type="textarea" 
-        value={description} 
-        rows="5" 
+      <FormInput
+        name="description"
+        type="textarea"
+        validated={descriptionIsValid}
+        value={description}
+        rows="5"
         onChange={e => setDescription(e.target.value)} />
       {postBtn}
     </form>
