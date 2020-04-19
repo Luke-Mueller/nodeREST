@@ -28,7 +28,7 @@ class Art {
     const client = mkClient()
     return client.query(text, values)
       .then(result => result.rows[0])
-      .catch(err => console.log(err))
+      .catch(err => console.log('Error in create(): ', err))
       .finally(() => client.end());
   };
 
@@ -41,7 +41,7 @@ class Art {
     const client = mkClient()
     return client.query(text, id)
       .then(result => result.rows[0])
-      .catch(err => console.log(err))
+      .catch(err => console.log('Error in delete(): ', err))
       .finally(() => client.end());
   };
 
@@ -50,7 +50,7 @@ class Art {
     const client = mkClient();
     return client.query(text)
       .then(result => result.rows)
-      .catch(err => console.log(err))
+      .catch(err => console.log('Error in getArt(): ', err))
       .finally(() => client.end());
   };
 
@@ -73,7 +73,7 @@ class Art {
     const client = mkClient()
     return client.query(text, values)
       .then(result => result.rows[0])
-      .catch(err => console.log('ERR', err))
+      .catch(err => console.log('Error in update(): ', err))
       .finally(() => client.end());
   };
 };
