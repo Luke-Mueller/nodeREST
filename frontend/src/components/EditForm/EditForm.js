@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import FormInput from '../util/FormInput/FormInput';
 
-import '../../styles/forms.css';
+import '../util/styles/forms.css';
 
 const URI = `${process.env.REACT_APP_API_URL}`;
 
@@ -13,17 +13,22 @@ const EditForm = props => {
   const [changed, setChanged] = useState(false);
 
   const deleteHandler = e => {
-    const id = props.data.id;
-    axios.delete(`${URI}/app/${id}`)
-      .then(res => {
-        props.setEditing(false);
-        alert(res.data.message);
-        props.setArtArr(prevArr => {
-          const newArr = prevArr.filter(i => i.id !== id);
-          return newArr;
-        });
-      })
-      .catch(err => console.log('Delete artwork failed ', err));
+    const result = window.confirm(
+      `Are you sure you want to delete ${props.data.name}?`
+    );
+    if (result) {
+      const id = props.data.id;
+      axios.delete(`${URI}/app/${id}`)
+        .then(res => {
+          props.setEditing(false);
+          alert(res.data.message);
+          props.setArtArr(prevArr => {
+            const newArr = prevArr.filter(i => i.id !== id);
+            return newArr;
+          });
+        })
+        .catch(err => console.log('Delete artwork failed ', err));
+    }; 
     e.preventDefault();
   };
 

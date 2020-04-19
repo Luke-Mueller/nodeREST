@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import FormInput from '../util/FormInput/FormInput';
 
-import '../../styles/forms.css';
+import '../util/styles/forms.css';
 
 const URI = `${process.env.REACT_APP_API_URL}`;
 

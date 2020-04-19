@@ -12,7 +12,6 @@ const App = () => {
   const [data, setData] = useState({});
 
   const setEditingHandler = data => {
-    console.log("D", data)
     setEditing(true);
     setData(data);
   };
