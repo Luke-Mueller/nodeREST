@@ -35,7 +35,10 @@ const EditForm = props => {
     });
 
     axios.put(`${URI}/app/${id}`, { payload })
-      .then(res => alert(res.data.message))
+      .then(res => {
+        props.setEditing(false);
+        alert(res.data.message)
+      })
       .catch(err => console.log(err))
     e.preventDefault();
   };

@@ -5,6 +5,7 @@ import CardDiv from './CardDiv/CardDiv';
 import './Card.css';
 
 const Card = props => {
+  const date = new Date(props.data.date);
   return (
     <div className="Card">
       <CardDiv label="name" value={props.data.name} />
@@ -12,7 +13,7 @@ const Card = props => {
       <CardDiv label="description" value={props.data.description} />
       <CardDiv label="width" value={props.data.width} />
       <CardDiv label="height" value={props.data.height} />
-      <CardDiv label="date created" value={new Date(props.data.date).toDateString()} />
+      <CardDiv label="date created" value={date.toDateString()} />
       <button onClick={() => props.setEditing(props.data)}>Edit</button>
     </div>
   );
