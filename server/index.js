@@ -5,9 +5,8 @@ const cors = require('cors');
 const mkClient = require('./utils/connection');
 const Routes = require('./routes/index');
 
-const port = process.env.PORT;
-
 const app = express();
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(cors());
