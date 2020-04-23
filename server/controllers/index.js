@@ -9,29 +9,19 @@ exports.deleteArt = (req, res, next) => {
         message: `${result.name} deleted successfully` 
       });
     })
-    .catch(err => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
+    .catch(err => next(err));
 };
 
 exports.getArt = (req, res, next) => {
   const art = new Art();
-  art.getArt()
+  art.get()
     .then(result => {
       res.status(200).json({
         message: 'Art retrieved successfully',
         payload: result
-      })
+      });
     })
-    .catch(err => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
+    .catch(err => next(err));
 };
 
 exports.postArt = (req, res, next) => {
@@ -48,15 +38,10 @@ exports.postArt = (req, res, next) => {
     .then(result => {
       res.status(201).json({
         message: 'Art created successfully',
-        artObj: result
+        payload: result
       });
     })
-    .catch(err => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      };
-      next(err);
-    })
+    .catch(err => next(err));
 };
 
 exports.updateArt = (req, res, next) => {
@@ -67,10 +52,5 @@ exports.updateArt = (req, res, next) => {
     .then(result => {
       res.status(200).json({ message: `${result.name} updated successfully` });
     })
-    .catch(err => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      };
-      next(err);
-    });
+    .catch(err => next(err));
 };
