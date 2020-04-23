@@ -20,8 +20,8 @@ const createTableText = `
     width NUMERIC,
     height NUMERIC,
     date Date 
-  )
-;`
+  );
+`
 const client = mkClient();
 client.query(createTableText)
   .catch(err => console.log(err))
