@@ -23,53 +23,40 @@ const PostForm = props => {
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
-    // FORM VALIDATION
     const re = /^([0-2]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
-    if (name !== '') {
-      setNameIsValid(true);
-    } else {
-      setNameIsValid(false);
-    };
-    if (artist !== '') {
-      setArtistIsValid(true);
-    } else {
-      setArtistIsValid(false);
-    };
-    if (description !== '') {
-      setDescriptionIsValid(true);
-    } else {
-      setDescriptionIsValid(false);
-    };
-    if (width !== '') {
-      setWidthIsValid(true);
-    } else {
-      setWidthIsValid(false);
-    };
-    if (height !== '') {
-      setHeightIsValid(true);
-    } else {
-      setHeightIsValid(false);
-    };
-    if (re.test(date)) {
-      setDateIsValid(true);
-    } else {
-      setDateIsValid(false);
-    };
-
-    let result = false;
+    name !== '' ? setNameIsValid(true) : setNameIsValid(false);
+    artist !== '' ? setArtistIsValid(true) : setArtistIsValid(false);
+    description !== '' ? setDescriptionIsValid(true) : setDescriptionIsValid(false);
+    width !== '' ? setWidthIsValid(true) : setWidthIsValid(false);
+    height !== '' ? setHeightIsValid(true) : setHeightIsValid(false);
+    re.test(date) ? setDateIsValid(true) : setDateIsValid(false);
+    
+    let formIsValid = false;
     if (
-      nameIsValid,
-      artistIsValid,
-      descriptionIsValid,
-      widthIsValid,
-      heightIsValid,
+      nameIsValid &&
+      artistIsValid &&
+      descriptionIsValid &&
+      widthIsValid &&
+      heightIsValid &&
       dateIsValid
-    ) {
-      result = true;
-    }
-    setValidated(result);
-  }, [name, artist, description, width, height, date]);
+    ) formIsValid = true;
+  
+    setValidated(formIsValid);
+  }, [
+    name, 
+    artist, 
+    description, 
+    width, 
+    height, 
+    date, 
+    nameIsValid,
+    artistIsValid,
+    descriptionIsValid,
+    widthIsValid,
+    heightIsValid,
+    dateIsValid
+  ]);
 
   const submitHandler = e => {
     const payload = JSON.stringify({
@@ -87,7 +74,7 @@ const PostForm = props => {
           throw new Error('Error');
         };
         props.setArtArr(prevArr => {
-          return prevArr.concat(res.data.artObj);
+          return prevArr.concat(res.data.payload);
         });
         alert('Art added successfully');
       })

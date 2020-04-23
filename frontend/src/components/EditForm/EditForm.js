@@ -23,8 +23,13 @@ const EditForm = props => {
     } else {
       setIsValid(false);
     };
-
-  }, [name, description, changed]);
+  }, [
+    name, 
+    description, 
+    changed,
+    props.data.description,
+    props.data.name
+  ]);
 
   const deleteHandler = e => {
     const result = window.confirm(
@@ -56,7 +61,7 @@ const EditForm = props => {
     axios.put(`${URI}/app/${id}`, { payload })
       .then(res => {
         props.setEditing(false);
-        alert(res.data.message)
+        alert(res.data.message);
       })
       .catch(err => console.log(err))
     e.preventDefault();
@@ -86,7 +91,7 @@ const EditForm = props => {
         value={description}
         rows="5"
         onChange={e => {
-          setDescription(e.target.value)
+          setDescription(e.target.value);
           setChanged(true);
         }} />
       <button onClick={() => props.setEditing(false)}>CANCEL</button>
