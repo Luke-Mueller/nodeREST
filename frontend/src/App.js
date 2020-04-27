@@ -28,7 +28,10 @@ const App = () => {
     );
   } else {
     form = (
-      <EditForm data={data} setEditing={setEditing}/>
+      <EditForm 
+        data={data} 
+        setArtArr={setArtArr}
+        setEditing={setEditing}/>
     );
     display = null;
   }

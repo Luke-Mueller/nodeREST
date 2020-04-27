@@ -20,7 +20,7 @@ const PostForm = props => {
   const [widthIsValid, setWidthIsValid] = useState(false);
   const [heightIsValid, setHeightIsValid] = useState(false);
   const [dateIsValid, setDateIsValid] = useState(false);
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState('false');
 
   useEffect(() => {
     const re = /^([0-2]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
@@ -32,7 +32,7 @@ const PostForm = props => {
     height !== '' ? setHeightIsValid(true) : setHeightIsValid(false);
     re.test(date) ? setDateIsValid(true) : setDateIsValid(false);
     
-    let formIsValid = false;
+    let formIsValid = 'false';
     if (
       nameIsValid &&
       artistIsValid &&
@@ -40,7 +40,7 @@ const PostForm = props => {
       widthIsValid &&
       heightIsValid &&
       dateIsValid
-    ) formIsValid = true;
+    ) formIsValid = 'true';
   
     setValidated(formIsValid);
   }, [
@@ -68,19 +68,14 @@ const PostForm = props => {
       date: date
     });
 
-    axios.post(`${URI}/app`, { payload })
+    axios.post(`${URI}`, { payload })
       .then(res => {
-        if (res.status !== 201) {
-          throw new Error('Error');
-        };
         props.setArtArr(prevArr => {
           return prevArr.concat(res.data.payload);
         });
         alert('Art added successfully');
       })
-      .catch(err => {
-        console.log('Adding art failed: ', err);
-      })
+      .catch(() => alert('Adding art failed'))
       .finally(() => {
         setName('');
         setArtist('');
@@ -104,37 +99,37 @@ const PostForm = props => {
       <FormInput
         name="name"
         type="text"
-        validated={nameIsValid}
+        validated={nameIsValid ? 'true' : undefined}
         value={name}
         onChange={e => setName(e.target.value)} />
       <FormInput
         name="artist"
         type="text"
         value={artist}
-        validated={artistIsValid}
+        validated={artistIsValid ? 'true' : undefined}
         onChange={e => setArtist(e.target.value)} />
       <FormInput
         name="width"
         type="number"
-        validated={widthIsValid}
+        validated={widthIsValid ? 'true' : undefined}
         value={width}
         onChange={e => setWidth(e.target.value)} />
       <FormInput
         name="height"
         type="number"
-        validated={heightIsValid}
+        validated={heightIsValid ? 'true' : undefined}
         value={height}
         onChange={e => setHeight(e.target.value)} />
       <FormInput
         name="date"
         type="date"
-        validated={dateIsValid}
+        validated={dateIsValid ? 'true' : undefined}
         value={date}
         onChange={e => setDate(e.target.value)} />
       <FormInput
         name="description"
         type="textarea"
-        validated={descriptionIsValid}
+        validated={descriptionIsValid ? 'true' : undefined}
         value={description}
         rows="5"
         onChange={e => setDescription(e.target.value)} />

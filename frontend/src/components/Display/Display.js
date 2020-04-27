@@ -18,7 +18,7 @@ const Display = props => {
   }, [show, props.artArr])
 
   const getHandler = () => {
-    axios.get(`${URI}/app`)
+    axios.get(`${URI}`)
       .then(res => {
         const newArr = res.data.payload;
         if (!newArr.length) {

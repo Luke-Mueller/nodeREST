@@ -11,17 +11,17 @@ const EditForm = props => {
   const [name, setName] = useState(props.data.name);
   const [description, setDescription] = useState(props.data.description);
   const [changed, setChanged] = useState(false);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(undefined);
 
   useEffect(() => {
     if (
-      (name !== '' || description !== '') && 
+      (name !== '' && description !== '') && 
       (name !== props.data.name || description !== props.data.description) &&
       changed
     ) {
-      setIsValid(true);
+      setIsValid('true');
     } else {
-      setIsValid(false);
+      setIsValid(undefined);
     };
   }, [
     name, 
@@ -37,7 +37,7 @@ const EditForm = props => {
     );
     if (result) {
       const id = props.data.id;
-      axios.delete(`${URI}/app/${id}`)
+      axios.delete(`${URI}/${id}`)
         .then(res => {
           props.setEditing(false);
           alert(res.data.message);
@@ -46,7 +46,7 @@ const EditForm = props => {
             return newArr;
           });
         })
-        .catch(err => console.log('Delete artwork failed ', err));
+        .catch(() => alert('Delete failed'));
     }; 
     e.preventDefault();
   };
@@ -58,17 +58,17 @@ const EditForm = props => {
       description: description
     });
 
-    axios.put(`${URI}/app/${id}`, { payload })
+    axios.put(`${URI}/${id}`, { payload })
       .then(res => {
         props.setEditing(false);
         alert(res.data.message);
       })
-      .catch(err => console.log(err))
+      .catch(() => alert('Update failed'))
     e.preventDefault();
   };
 
   let updateBtn;
-  changed ?
+  isValid ?
     updateBtn = <button onClick={updateHandler}>UPDATE</button> :
     updateBtn = <button onClick={updateHandler} disabled>UPDATE</button>
 

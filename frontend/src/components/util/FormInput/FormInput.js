@@ -6,9 +6,9 @@ const Input = props => {
   let inputElement;
   let style;
 
-  if (props.validated) {
-    style = { 'border-color': '#ccc' }
-  }
+  if (props.validated === 'true') {
+    style = { 'borderColor': '#ccc' }
+  };
 
   if (props.type === 'textarea') {
     inputElement = (
@@ -24,7 +24,7 @@ const Input = props => {
         style={style}
         {...props} />
     );
-  }
+  };
 
   return (
     <div className="Form__div">
